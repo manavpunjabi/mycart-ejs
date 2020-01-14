@@ -4,24 +4,43 @@
 <br /><br />
 
 <form method="post" action="/admin/pages/edit-page/<%=slug%>">
-    <div class="form-group">
-        <label for="">Title</label>
-        <input type="text" placeholder="title" class="form-control" name="title" value="<%= title %>" />
-    </div>
+  <div class="form-group">
+    <label for="">Title</label>
+    <input
+      type="text"
+      placeholder="title"
+      class="form-control"
+      name="title"
+      value="<%= title %>"
+    />
+  </div>
 
-    <div class="form-group">
-        <label for="">Slug</label>
-        <input type="text" placeholder="slug" class="form-control" name="slug" value="<%= slug %>" />
-    </div>
+  <div class="form-group">
+    <label for="">Slug</label>
+    <input
+      type="text"
+      placeholder="slug"
+      class="form-control"
+      name="slug"
+      value="<%= slug %>"
+    />
+  </div>
 
-    <div class="form-group">
-        <label for="">Content</label>
-        <textarea placeholder="content" name="content" cols="30" rows="10" class="form-control"
-            value="<%= content %>"></textarea>
-
-        </textarea>
-    </div>
-    <input type="hidden" name="id" value="<%=id%>">
-    <button class="btn btn-default">Submit</button>
+  <div class="form-group">
+    <label for="">Content</label>
+    <textarea
+      placeholder="content"
+      name="content"
+      id="ta"
+      cols="30"
+      rows="10"
+      class="form-control"
+    >
+<%= content %>
+        </textarea
+    >
+  </div>
+  <input type="hidden" name="id" value="<%=id%>" />
+  <button class="btn btn-default">Submit</button>
 </form>
 <%-include ('../_layouts/adminfooter') %>

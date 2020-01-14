@@ -165,13 +165,24 @@ router.post("/edit-page/:slug", (req, res) => {
             if (err) {
               return console.log(err);
             }
-            req.flash("success", "Page added");
-            res.redirect("/admin/edit-page/" + page.slug);
+            req.flash("success", "Page edited");
+            res.redirect("/admin/pages/edit-page/" + page.slug);
           });
         });
       }
     });
   }
+});
+
+//get delete page
+router.get("/delete-page/:id", (req, res) => {
+  Page.findByIdAndRemove(req.params.id, err => {
+    if (err) {
+      return console.log(err);
+    }
+    req.flash("success", "Page deleted");
+    res.redirect("/admin/pages/");
+  });
 });
 
 module.exports = router;
