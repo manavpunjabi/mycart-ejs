@@ -79,7 +79,10 @@ app.use(function(req, res, next) {
 
 const pages = require("./routes/pages");
 const adminpages = require("./routes/admin_pages");
+const adminCategories = require("./routes/admin_categories");
+
 app.use("/admin/pages", adminpages);
+app.use("/admin/categories", adminCategories);
 app.use("/", pages);
 
 // start sv
