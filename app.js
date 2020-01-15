@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const expressValidator = require("express-validator");
 const flash = require("connect-flash");
+const fileUpload = require("express-fileupload");
 
 // connect to mongodb
 mongoose.connect(conifg.database);
@@ -27,6 +28,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // set global error variable
 app.locals.errors = null;
+
+// express file upload middleware
+app.use(fileUpload());
 
 // body parser middleware
 
@@ -63,6 +67,23 @@ app.use(
         msg: msg,
         value: value
       };
+    },
+    customValidators: {
+      isImage: (value, filename) => {
+        let extension = path.extname(filename).toLowerCase();
+        switch (extension) {
+          case ".jpg":
+            return ".jpg";
+          case ".jpeg":
+            return ".jpeg";
+          case ".png":
+            return ".png";
+          case "":
+            return ".jpg";
+          default:
+            return false;
+        }
+      }
     }
   })
 );
@@ -78,11 +99,13 @@ app.use(function(req, res, next) {
 // set routes
 
 const pages = require("./routes/pages");
-const adminpages = require("./routes/admin_pages");
+const adminPages = require("./routes/admin_pages");
 const adminCategories = require("./routes/admin_categories");
+const adminProducts = require("./routes/admin_products");
 
-app.use("/admin/pages", adminpages);
+app.use("/admin/pages", adminPages);
 app.use("/admin/categories", adminCategories);
+app.use("/admin/products", adminProducts);
 app.use("/", pages);
 
 // start sv

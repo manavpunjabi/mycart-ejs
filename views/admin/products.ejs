@@ -1,0 +1,50 @@
+<%-include ('../_layouts/adminheader') %>
+<h2 class="page-title">Products</h2>
+<a href="/admin/products/add-product" class="btn btn-primary"
+  >Add a new product</a
+>
+<br /><br />
+<% if(count>0) {%>
+
+<table class="table table-striped">
+  <thead>
+    <tr class="home">
+      <th>Product</th>
+      <th>Price</th>
+      <th>Category</th>
+      <th>Image</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% products.forEach((product)=>{%>
+    <tr>
+      <td><%=product.title%></td>
+      <td><%=parseInt(product.price)%></td>
+      <td><%=product.category%></td>
+      // default image in case no image
+      <td>
+        <% if(product.image==="") { %>
+        <img src="/images/default.png" />
+        <% } else {%>
+        <img src="/product_images/<%=product._id%>/<%=product.image%>" />
+        <% } %>
+      </td>
+      <td><a href="/admin/products/edit-product/<%=product._id%>">Edit</a></td>
+
+      <td>
+        <a
+          class="confirmDeletion"
+          href="/admin/products/delete-product/<%=product._id%>"
+          >Delete</a
+        >
+      </td>
+    </tr>
+
+    <%});%>
+  </tbody>
+</table>
+<% }else { %>
+<h3 class="text-center">No products found</h3>
+<% } %> <%-include ('../_layouts/adminfooter') %>

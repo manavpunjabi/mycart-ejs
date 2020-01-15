@@ -18,7 +18,7 @@ const ProductSchema = mongoose.Schema({
     required: true
   },
   price: {
-    type: Number
+    type: Number,
     required: true
   },
   image: {
