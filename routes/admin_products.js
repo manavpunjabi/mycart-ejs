@@ -42,8 +42,9 @@ router.get("/add-product", (req, res) => {
 
 // post add product
 router.post("/add-product", (req, res) => {
-  let imageFile =
-    typeof req.files.image !== "undefined" ? req.files.image.name : "";
+  // let imageFile =
+  //   typeof req.files.image !== "undefined" ? req.files.image.name : "";
+  let imageFile = req.files;
 
   req.checkBody("title", "Title must have value").notEmpty();
   req.checkBody("desc", "Description must have value").notEmpty();
@@ -51,7 +52,7 @@ router.post("/add-product", (req, res) => {
   req.checkBody("image", "An image is required").isImage(imageFile);
 
   let title = req.body.title;
-  let slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+  let slug = title.replace(/\s+/g, "-").toLowerCase();
   let price = req.body.price;
   let desc = req.body.desc;
   let category = req.body.category;
@@ -112,6 +113,7 @@ router.post("/add-product", (req, res) => {
           if (imageFile != "") {
             let productImage = req.files.image;
             let path = "public/product_image/" + product._id + "/" + imageFile;
+            console.log("PATHHHHHH" + path);
 
             // save
             productImage.mv(path, err => {

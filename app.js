@@ -71,6 +71,7 @@ app.use(
     customValidators: {
       isImage: (value, filename) => {
         let extension = path.extname(filename).toLowerCase();
+        console.log(extension);
         switch (extension) {
           case ".jpg":
             return ".jpg";
