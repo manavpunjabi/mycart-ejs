@@ -23,10 +23,10 @@
       <td><%=product.title%></td>
       <td><%=parseInt(product.price)%></td>
       <td><%=product.category%></td>
-      // default image in case no image
+
       <td>
         <% if(product.image==="") { %>
-        <img src="/images/default.png" />
+        <img src="/images/default.svg" />
         <% } else {%>
         <img src="/product_images/<%=product._id%>/<%=product.image%>" />
         <% } %>

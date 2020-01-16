@@ -4,22 +4,22 @@ const mkdirp = require("mkdirp");
 const fs = require("fs-extra");
 const resizeImg = require("resize-img");
 
-// get page and category model
+// get product and category model
 const Product = require("../models/products");
 const Category = require("../models/category");
 
-// default route is /admin/pages
+// default route is /admin/products
 
 // get products index
 router.get("/", (req, res) => {
   let count;
-  Product.count((err, count) => {
-    count = count;
+  Product.count((err, c) => {
+    count = c;
   });
   Product.find((err, products) => {
     res.render("admin/products", {
-      products,
-      count
+      products: products,
+      count: count
     });
   });
 });
@@ -42,13 +42,13 @@ router.get("/add-product", (req, res) => {
 
 // post add product
 router.post("/add-product", (req, res) => {
-  // let imageFile =
-  //   typeof req.files.image !== "undefined" ? req.files.image.name : "";
-  let imageFile = req.files;
+  var imageFile =
+    typeof req.files.image !== "undefined" ? req.files.image.name : "";
+  // let imageFile = req.files;
 
   req.checkBody("title", "Title must have value").notEmpty();
   req.checkBody("desc", "Description must have value").notEmpty();
-  req.checkBody("price", "Price must have value").isDecimal();
+  req.checkBody("price", "Price must have value").notEmpty();
   req.checkBody("image", "An image is required").isImage(imageFile);
 
   let title = req.body.title;
