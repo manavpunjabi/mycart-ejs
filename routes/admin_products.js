@@ -49,7 +49,9 @@ router.post("/add-product", (req, res) => {
   req.checkBody("title", "Title must have value").notEmpty();
   req.checkBody("desc", "Description must have value").notEmpty();
   req.checkBody("price", "Price must have value").notEmpty();
-  req.checkBody("image", "An image is required").isImage(imageFile);
+  req
+    .checkBody("image", "Only JPG and PNG images are allowed")
+    .isImage(imageFile);
 
   let title = req.body.title;
   let slug = title.replace(/\s+/g, "-").toLowerCase();
@@ -97,14 +99,14 @@ router.post("/add-product", (req, res) => {
             return console.log(err);
           }
           // creating folders
-          mkdirp("public/product/images/" + product._id, err => {
+          mkdirp("public/product_images/" + product._id, err => {
             return console.log(err);
           });
-          mkdirp("public/product/images/" + product._id + "/gallery", err => {
+          mkdirp("public/product_images/" + product._id + "/gallery", err => {
             return console.log(err);
           });
           mkdirp(
-            "public/product/images/" + product._id + "/gallery/thumbs",
+            "public/product_images/" + product._id + "/gallery/thumbs",
             err => {
               return console.log(err);
             }
@@ -112,8 +114,8 @@ router.post("/add-product", (req, res) => {
 
           if (imageFile != "") {
             let productImage = req.files.image;
-            let path = "public/product_image/" + product._id + "/" + imageFile;
-            console.log("PATHHHHHH" + path);
+            let path = "public/product_images/" + product._id + "/" + imageFile;
+            //console.log("PATHHHHHH" + path);
 
             // save
             productImage.mv(path, err => {
@@ -129,40 +131,43 @@ router.post("/add-product", (req, res) => {
   }
 });
 
-//post reorder pages
-router.post("/reorder-pages", (req, res) => {
-  // console.log(req.body);
-  let ids = req.body["id[]"];
-  let count = 0;
+// get edit page
+router.get("/edit-product/:id", (req, res) => {
+  var errors;
+  if (req.session.errors) {
+    errors = req.session.errors;
+  }
+  req.session.errors = null;
 
-  for (let i = 0; i < ids.length; i++) {
-    let id = ids[i];
-    count++;
+  Category.find((err, categories) => {
+    Product.findById(req.params.id, (err, p) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/admin/products");
+      } else {
+        let galleryDir = "public/product_images/" + p._id + "/gallery";
+        let galleryImages = null;
 
-    (function(count) {
-      Page.findById(id, (err, page) => {
-        page.sorting = count;
-        page.save(err => {
+        fs.readdir(galleryDir, (err, files) => {
           if (err) {
-            return console.log(err);
+            console.log(err);
+          } else {
+            galleryImages = files;
+
+            res.render("admin/edit_product", {
+              title: p.title,
+              errors: errors,
+              desc: p.desc,
+              categories: categories,
+              category: p.category.replace(/\s+/g, "-").toLowerCase(),
+              price: parseInt(p.price),
+              image: p.image,
+              galleryImages: galleryImages,
+              id: p._id
+            });
           }
         });
-      });
-    })(count);
-  }
-});
-
-// get edit page
-router.get("/edit-page/:id", (req, res) => {
-  Page.findById(req.params.id, (err, page) => {
-    if (err) {
-      return console.log(err);
-    }
-    res.render("admin/edit_page", {
-      title: page.title,
-      slug: page.slug,
-      content: page.content,
-      id: page._id
+      }
     });
   });
 });

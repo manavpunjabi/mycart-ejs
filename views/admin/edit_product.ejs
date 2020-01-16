@@ -1,0 +1,96 @@
+<%-include ('../_layouts/adminheader') %>
+<h2 class="page-title">Edit A Product</h2>
+<a href="/admin/products" class="btn btn-primary">Back to all products</a>
+<br /><br />
+
+<form
+  method="post"
+  action="/admin/products/edit-product/<%=id%>"
+  enctype="multipart/form-data"
+>
+  <div class="form-group">
+    <label for="">Title</label>
+    <input
+      type="text"
+      placeholder="title"
+      class="form-control"
+      name="title"
+      value="<%= title %>"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="">Description</label>
+    <textarea
+      placeholder="description"
+      name="desc"
+      cols="30"
+      rows="10"
+      class="form-control"
+    >
+<%= desc %></textarea
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="">Category</label>
+    <select name="category" class="form-control">
+      <% categories.forEach((cat)=>{ %>
+      <option value="<%=cat.slug%>"
+        <%if (cat.slug==category) {%> 
+            selected="selected"> <%}%>
+        <%=cat.title%></option
+      >
+      <% });%>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="">Price</label>
+    <input
+      type="text"
+      placeholder="price"
+      class="form-control"
+      name="price"
+      value="<%= price %>"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="">Current Image</label>
+    <p>
+      <% if (image=="") { %>
+      <img id="noimage" src="/images/noimage.png" alt="" />
+      <% }else { %>
+      <img id="noimage" src="/products_images/<%=id%>/<%=image%>" alt="" />
+      <% } %>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="">Upload Image</label>
+    <input type="file" class="form-control" name="image" id="img" />
+    <img src="#" id="imgPreview" alt="" />
+  </div>
+
+  <input type="hidden" name="pimage" value="<%=image%>" />
+  <button class="btn btn-default">Submit</button>
+</form>
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        $("#imgPreview")
+          .attr("src", e.target.result)
+          .width(100)
+          .height(100);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#img").change(function() {
+    readURL(this);
+  });
+</script>
+<%-include ('../_layouts/adminfooter') %>
