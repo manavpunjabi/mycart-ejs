@@ -42,7 +42,7 @@ router.get("/add-product", (req, res) => {
 
 // post add product
 router.post("/add-product", (req, res) => {
-  var imageFile =
+  let imageFile =
     typeof req.files.image !== "undefined" ? req.files.image.name : "";
   // let imageFile = req.files;
 
