@@ -43,7 +43,8 @@
             <% pages.forEach(page => { %> <% if (page.slug=="home") { %>
             <li><a href="/"><%=page.title%></a></li>
             <% } else { %>
-            <li><a href="<%=page.slug%>"><%=page.title%></a></li>
+            <li><a href="<%=page.slug%>">
+            <%=page.title%></a></li>
             <% }}) %>
           </ul>
         </div>
@@ -53,7 +54,23 @@
 
     <div class="container">
       <%- messages('messages', locals) %>
-    </div>
+      <div class="row">
+        <div class="col-xs-12 col-md-3">
+          <h2>Categories</h2>
+          <ul class="list-group">
+            <li class="list-group-item"><a href="/products">All Products</a></li>
+            <% categories.forEach(c => { %>
+             <li class="list-group-item"><a href="/products/<%=c.slug%>">
+             <%=c.title%>
+            </a></li>
+            <% }) %>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-md-1"></div>
+        <div class="col-xs-12 col-md-8">
+
+        
+    
     <!-- /.container -->
 
     <script

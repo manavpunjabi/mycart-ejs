@@ -44,6 +44,20 @@ Page.find({})
     }
   });
 
+// get category model
+let Category = require("./models/category");
+
+// get all categories for header
+
+Category.find((err, categories) => {
+  if (err) {
+    console.log(err);
+  } else {
+    // so that categories is refreshed after every change also used in admin_categories post add edit & delete
+    app.locals.categories = categories;
+  }
+});
+
 // express file upload middleware
 app.use(fileUpload());
 
