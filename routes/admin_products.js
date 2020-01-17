@@ -100,15 +100,15 @@ router.post("/add-product", (req, res) => {
           }
           // creating folders
           mkdirp("public/product_images/" + product._id, err => {
-            return console.log(err);
+            return console.log("1" + err);
           });
           mkdirp("public/product_images/" + product._id + "/gallery", err => {
-            return console.log(err);
+            return console.log("2" + err);
           });
           mkdirp(
             "public/product_images/" + product._id + "/gallery/thumbs",
             err => {
-              return console.log(err);
+              return console.log("3" + err);
             }
           );
 
@@ -119,7 +119,7 @@ router.post("/add-product", (req, res) => {
 
             // save
             productImage.mv(path, err => {
-              return console.log(err);
+              return console.log("4" + err);
             });
           }
 
@@ -172,60 +172,100 @@ router.get("/edit-product/:id", (req, res) => {
   });
 });
 
-// post edit page
-router.post("/edit-page/:id", (req, res) => {
+// post edit product
+router.post("/edit-product/:id", (req, res) => {
+  let imageFile =
+    typeof req.files.image !== "undefined" ? req.files.image.name : "";
+  // let imageFile = req.files;
+
   req.checkBody("title", "Title must have value").notEmpty();
-  req.checkBody("content", "Content must have value").notEmpty();
+  req.checkBody("desc", "Description must have value").notEmpty();
+  req.checkBody("price", "Price must have value").notEmpty();
+  req
+    .checkBody("image", "Only JPG and PNG images are allowed")
+    .isImage(imageFile);
 
   let title = req.body.title;
-  let slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
-  // making title the slug if slug is empty as its not set to REQUIRED
-  if (slug == "") {
-    slug = title.replace(/\s+/g, "-").toLowerCase();
-  }
-  let content = req.body.content;
+  let slug = title.replace(/\s+/g, "-").toLowerCase();
+  let price = req.body.price;
+  let desc = req.body.desc;
+  let category = req.body.category;
+  let pimage = req.body.pimage;
   let id = req.params.id;
 
   let errors = req.validationErrors();
+
   if (errors) {
-    console.log("errors in validation");
-    res.render("admin/edit_page", {
-      errors: errors,
-      title: title,
-      slug: slug,
-      content: content,
-      id: id
-    });
+    req.session.errors = errors;
+    res.redirect("/admin/products/edit-product/" + id);
   } else {
-    Page.findOne({ slug: slug, _id: { $ne: id } }, (err, page) => {
-      if (page) {
-        req.flash("danger", "Page slug exists, choose another");
-        res.render("admin/edit_page", {
-          title: title,
-          slug: slug,
-          content: content,
-          id: id
-        });
+    Product.findOne({ slug: slug, _id: { $ne: id } }, (err, p) => {
+      if (err) {
+        return console.log(err);
+      }
+      if (p) {
+        req.flash("danger", "Product title exists, choose another");
+        res.redirect("/admin/products/edit-product/" + id);
       } else {
-        Page.findById(id, (err, page) => {
+        Product.findById(id, (err, p) => {
           if (err) {
             return console.log(err);
           }
-          page.title = title;
-          page.slug = slug;
-          page.content = content;
-
-          page.save(err => {
+          p.title = title;
+          p.slug = slug;
+          p.desc = desc;
+          p.price = parseInt(price);
+          p.category = category;
+          if (imageFile !== "") {
+            p.image = imageFile;
+          }
+          p.save(err => {
             if (err) {
-              return console.log(err);
+              console.log(err);
             }
-            req.flash("success", "Page edited");
-            res.redirect("/admin/pages/edit-page/" + id);
+            if (imageFile !== "") {
+              if (pimage !== "") {
+                fs.remove("public/product_images/" + id + "/" + pimage, err => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+              }
+              let productImage = req.files.image;
+              let path = "public/product_images/" + id + "/" + imageFile;
+
+              // save
+              productImage.mv(path, err => {
+                return console.log(err);
+              });
+            }
+            req.flash("success", "Product edited");
+            res.redirect("/admin/products/edit-product/" + id);
           });
         });
       }
     });
   }
+});
+
+//post product gallery
+router.post("/product-gallery/:id", (req, res) => {
+  let productImage = req.files.file;
+  let id = req.params.id;
+  let path = "public/product_images/" + id + "/gallery/" + req.files.file.name;
+  let thumbsPath =
+    "public/product_images/" + id + "/gallery/thumbs/" + req.files.file.name;
+
+  productImage.mv(path, err => {
+    if (err) {
+      console.log(err);
+    }
+    resizeImg(fs.readFileSync(path), { width: 100, height: 100 }).then(buf => {
+      fs.writeFileSync(thumbsPath, buf);
+    });
+  });
+  // ajax request
+  res.sendStatus(200);
 });
 
 //get delete page
