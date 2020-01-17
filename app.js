@@ -26,8 +26,23 @@ app.set("view engine", "ejs");
 // set public folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// set global error variable
+// set global error variable for maintaining and refreshing pages order
 app.locals.errors = null;
+
+// get page model
+let Page = require("./models/page");
+
+// get all pages for header
+
+Page.find({})
+  .sort({ sorting: 1 })
+  .exec((err, pages) => {
+    if (err) {
+      console.log(err);
+    } else {
+      app.locals.pages = pages;
+    }
+  });
 
 // express file upload middleware
 app.use(fileUpload());

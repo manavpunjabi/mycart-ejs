@@ -72,6 +72,16 @@ router.post("/add-page", (req, res) => {
           if (err) {
             return console.log(err);
           }
+          // sorting pages again
+          Page.find({})
+            .sort({ sorting: 1 })
+            .exec((err, pages) => {
+              if (err) {
+                console.log(err);
+              } else {
+                req.app.locals.pages = pages;
+              }
+            });
           req.flash("success", "Page added");
           res.redirect("/admin/pages");
         });
@@ -80,10 +90,8 @@ router.post("/add-page", (req, res) => {
   }
 });
 
-//post reorder pages
-router.post("/reorder-pages", (req, res) => {
-  // console.log(req.body);
-  let ids = req.body["id[]"];
+// sort pages function
+function sortPages(ids, callback) {
   let count = 0;
 
   for (let i = 0; i < ids.length; i++) {
@@ -97,10 +105,32 @@ router.post("/reorder-pages", (req, res) => {
           if (err) {
             return console.log(err);
           }
+          ++count;
+          if (count >= ids.length) {
+            callback();
+          }
         });
       });
     })(count);
   }
+}
+
+//post reorder pages
+router.post("/reorder-pages", (req, res) => {
+  // console.log(req.body);
+  let ids = req.body["id[]"];
+
+  sortPages(ids, () => {
+    Page.find({})
+      .sort({ sorting: 1 })
+      .exec((err, pages) => {
+        if (err) {
+          console.log(err);
+        } else {
+          req.app.locals.pages = pages;
+        }
+      });
+  });
 });
 
 // get edit page
@@ -165,6 +195,15 @@ router.post("/edit-page/:id", (req, res) => {
             if (err) {
               return console.log(err);
             }
+            Page.find({})
+              .sort({ sorting: 1 })
+              .exec((err, pages) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  req.app.locals.pages = pages;
+                }
+              });
             req.flash("success", "Page edited");
             res.redirect("/admin/pages/edit-page/" + id);
           });
@@ -180,6 +219,15 @@ router.get("/delete-page/:id", (req, res) => {
     if (err) {
       return console.log(err);
     }
+    Page.find({})
+      .sort({ sorting: 1 })
+      .exec((err, pages) => {
+        if (err) {
+          console.log(err);
+        } else {
+          req.app.locals.pages = pages;
+        }
+      });
     req.flash("success", "Page deleted");
     res.redirect("/admin/pages/");
   });
