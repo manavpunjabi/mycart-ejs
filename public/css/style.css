@@ -17,3 +17,9 @@ ul.gallery li {
   margin: 20px;
   list-style-type: none;
 }
+img.cpi {
+  width: 100px;
+}
+table.alignmiddle td {
+  vertical-align: middle !important;
+}
