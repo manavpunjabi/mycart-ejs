@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     }
 
     res.render("index", {
-      title: page.title,
+      title: "mycart - Home",
       content: page.content
     });
   });

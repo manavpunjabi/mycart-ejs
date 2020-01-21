@@ -12,6 +12,8 @@
       sizes="96x96"
       href="/images/favicon-96x96.png"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -45,7 +47,18 @@
             <% } else { %>
             <li><a href="<%=page.slug%>">
             <%=page.title%></a></li>
-            <% }}) %>
+            <% }}); %>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+           <li>
+             <a href="/cart/checkout">Cart (
+               <% if (typeof cart!=="undefined") { %>
+                <%=cart.length %> 
+               <% } else {%>
+               0
+              <% } %>
+             )</a>
+           </li>
           </ul>
         </div>
         <!--/.nav-collapse -->
@@ -58,13 +71,14 @@
         <div class="col-xs-12 col-md-3">
           <h2>Categories</h2>
           <ul class="list-group">
-            <li class="list-group-item"><a href="/products">All Products</a></li>
+            <li class="list-group-item"><a href="/products/products">All Products</a></li>
             <% categories.forEach(c => { %>
              <li class="list-group-item"><a href="/products/<%=c.slug%>">
              <%=c.title%>
             </a></li>
             <% }) %>
           </ul>
+         
         </div>
         <div class="col-xs-12 col-md-1"></div>
         <div class="col-xs-12 col-md-8">

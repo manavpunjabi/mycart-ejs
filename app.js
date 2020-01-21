@@ -126,17 +126,27 @@ app.use(function(req, res, next) {
   next();
 });
 
+// session cart
+app.get("*", (req, res, next) => {
+  res.locals.cart = req.session.cart;
+  next();
+});
+
 // set routes
 
 const pages = require("./routes/pages");
 const adminPages = require("./routes/admin_pages");
 const adminCategories = require("./routes/admin_categories");
 const adminProducts = require("./routes/admin_products");
+const products = require("./routes/products");
+const cart = require("./routes/cart");
 
 app.use("/admin/pages", adminPages);
 app.use("/admin/categories", adminCategories);
 app.use("/admin/products", adminProducts);
 app.use("/", pages);
+app.use("/products", products);
+app.use("/cart", cart);
 
 // start sv
 const port = 3000;
