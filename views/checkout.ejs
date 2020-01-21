@@ -34,7 +34,7 @@
       <a class="clearcart btn btn-danger" href="/cart/clear">Clear Cart</a>
     </td>
     <td colspan="5" align="right">
-      <a class="btn btn-primary order" href="/placeorder">Place Order</a>
+      <a class="btn btn-primary order" href="/buynow">Place Order</a>
     </td>
   </tr>
 </table>
@@ -46,6 +46,15 @@
   $(function() {
     $("a.clearcart").on("click", () => {
       if (!confirm("Confirm clear?")) return false;
+    });
+
+    $("a.order").on("click", e => {
+      // e.preventDefault();
+      $(".ajaxbg").show();
+      // $.get("/buynow", () => {
+      //   // $("form.submit").click();
+
+      // });
     });
   });
 </script>

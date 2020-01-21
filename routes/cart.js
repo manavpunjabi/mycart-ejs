@@ -103,7 +103,9 @@ router.get("/clear", (req, res) => {
 
 // get place order
 
-router.get("/placeorder", (req, res) => {
+router.get("/buynow", (req, res) => {
+  delete req.session.cart;
+  //res.sendStatus(200);
   res.render("orderplaced");
 });
 
