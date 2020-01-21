@@ -104,9 +104,11 @@ router.get("/clear", (req, res) => {
 // get place order
 
 router.get("/buynow", (req, res) => {
-  delete req.session.cart;
   //res.sendStatus(200);
-  res.render("orderplaced");
+  res.render("orderplaced", {
+    title: "mycart - Order Confirmed"
+  });
+  //delete req.session.cart;
 });
 
 module.exports = router;

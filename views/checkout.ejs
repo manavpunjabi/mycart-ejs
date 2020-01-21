@@ -34,7 +34,9 @@
       <a class="clearcart btn btn-danger" href="/cart/clear">Clear Cart</a>
     </td>
     <td colspan="5" align="right">
-      <a class="btn btn-primary order" href="/buynow">Place Order</a>
+      <a id="delay" class="btn btn-primary order" href="/cart/buynow"
+        >Place Order</a
+      >
     </td>
   </tr>
 </table>
@@ -49,12 +51,29 @@
     });
 
     $("a.order").on("click", e => {
-      // e.preventDefault();
+      //let counter = 2;
+      //function decrement() {
+      // if (--counter == 0) {
       $(".ajaxbg").show();
+      //  }
+      // }
+      // setTimeout(decrement, 1000);
+      // e.preventDefault();
+
       // $.get("/buynow", () => {
       //   // $("form.submit").click();
 
       // });
+    });
+
+    $(function() {
+      $("#delay").on("click", function(e) {
+        e.preventDefault();
+        var self = this;
+        setTimeout(function() {
+          window.location.href = self.href;
+        }, 2000);
+      });
     });
   });
 </script>
