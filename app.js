@@ -7,6 +7,7 @@ const session = require("express-session");
 const expressValidator = require("express-validator");
 const flash = require("connect-flash");
 const fileUpload = require("express-fileupload");
+const passport = require("passport");
 
 // connect to mongodb
 mongoose.connect(conifg.database);
@@ -126,9 +127,18 @@ app.use(function(req, res, next) {
   next();
 });
 
+// passport config
+
+require("./config/passport")(passport);
+// passport middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // session cart
 app.get("*", (req, res, next) => {
   res.locals.cart = req.session.cart;
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -140,6 +150,7 @@ const adminCategories = require("./routes/admin_categories");
 const adminProducts = require("./routes/admin_products");
 const products = require("./routes/products");
 const cart = require("./routes/cart");
+const user = require("./routes/users");
 
 app.use("/admin/pages", adminPages);
 app.use("/admin/categories", adminCategories);
@@ -147,6 +158,7 @@ app.use("/admin/products", adminProducts);
 app.use("/", pages);
 app.use("/products", products);
 app.use("/cart", cart);
+app.use("/users", user);
 
 // start sv
 const port = 3000;

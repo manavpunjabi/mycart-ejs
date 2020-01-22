@@ -1,5 +1,19 @@
 <%-include ('_layouts/header') %>
 
-<h2>Order Confirmed</h2>
+<h1 class="display-1 text-center">Your order is confirmed</h1>
+<h2 class="display-2 text-center">
+  Your order will reach you by <span id="date"></span>
+</h2>
+<h3 class="display-3 text-center">Check your email for more details</h3>
+<div class="text-center">
+  <a class="btn btn-info m-*-auto" href="/">Continue Shopping</a>
+</div>
 
+<script>
+  n = new Date();
+  y = n.getFullYear();
+  m = n.getMonth() + 1;
+  d = n.getDate() + 2;
+  document.getElementById("date").innerHTML = d + "/" + m + "/" + y;
+</script>
 <%-include ('_layouts/footer') %>
