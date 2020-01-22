@@ -8,6 +8,7 @@ const expressValidator = require("express-validator");
 const flash = require("connect-flash");
 const fileUpload = require("express-fileupload");
 const passport = require("passport");
+const nodemailer = require("nodemailer");
 
 // connect to mongodb
 mongoose.connect(conifg.database);
