@@ -76,6 +76,15 @@
 
     <div class="container">
       <%- messages('messages', locals) %>
+<!-- errors are visible here -->
+      <% if(errors) {%>
+      <% errors.forEach((err)=>{%>
+      <div class="alert alert-danger">
+        <%= err.msg %>
+      </div>
+      <%});%>
+      <%}%>
+
       <div class="row">
         <div class="col-xs-12 col-md-3">
           <h2>Categories</h2>
