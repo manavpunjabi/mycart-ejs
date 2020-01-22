@@ -52,7 +52,7 @@
             <% pages.forEach(page => { %> <% if (page.slug=="home") { %>
             <li><a href="/"><%=page.title%></a></li>
             <% } else { %>
-            <li><a href="<%=page.slug%>">
+            <li><a href="/<%=page.slug%>">
             <%=page.title%></a></li>
             <% }}); %>
           </ul>
@@ -66,8 +66,16 @@
               <% } %>
              )</a>
            </li>
-           <li><a href="/users/register">Sign Up</a></li>
-          <li><a href="/users/login">Login</a></li>
+           <% if (user) { %>
+            <li><a href="/users/logout">Hi, <%=user.name%> | Logout</a></li>
+           <% }else{ %>
+            <li><a href="/users/register">Sign Up</a></li>
+            <li><a href="/users/login">Login</a></li>
+          <% } %>
+          <% if (user&& user.admin==1) { %>
+          <li><a href="/admin/pages">Admin Login</a></li>
+          <% }%>
+           
           </ul>
         </div>
         <!--/.nav-collapse -->

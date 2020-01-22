@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../config/auth");
+const isAdmin = auth.isAdmin;
 
 // get page model
 const Category = require("../models/category");
@@ -7,7 +9,7 @@ const Category = require("../models/category");
 // default route is /admin/categories
 
 // get categories index
-router.get("/", (req, res) => {
+router.get("/", isAdmin, (req, res) => {
   Category.find((err, categories) => {
     if (err) return console.log(err);
     res.render("admin/categories", {
@@ -17,7 +19,7 @@ router.get("/", (req, res) => {
 });
 
 // get add page
-router.get("/add-category", (req, res) => {
+router.get("/add-category", isAdmin, (req, res) => {
   const title = "";
 
   res.render("admin/add_category", {
@@ -72,7 +74,7 @@ router.post("/add-category", (req, res) => {
 });
 
 // get edit category
-router.get("/edit-category/:id", (req, res) => {
+router.get("/edit-category/:id", isAdmin, (req, res) => {
   Category.findById(req.params.id, (err, category) => {
     if (err) {
       return console.log(err);
@@ -138,7 +140,7 @@ router.post("/edit-category/:id", (req, res) => {
 });
 
 //get delete category
-router.get("/delete-category/:id", (req, res) => {
+router.get("/delete-category/:id", isAdmin, (req, res) => {
   Category.findByIdAndRemove(req.params.id, err => {
     if (err) {
       return console.log(err);

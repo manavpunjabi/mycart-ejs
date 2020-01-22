@@ -29,6 +29,7 @@ router.post("/register", (req, res) => {
   if (errors) {
     res.render("register", {
       errors: errors,
+      user: null,
       title: "mycart - Sign Up"
     });
   } else {
@@ -77,6 +78,22 @@ router.get("/login", (req, res) => {
   res.render("login", {
     title: "mycart - Login"
   });
+});
+
+// post login
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/users/login",
+    failureFlash: true
+  })(req, res, next);
+});
+
+// get logout
+router.get("/logout", (req, res) => {
+  req.logout();
+  req.flash("success", "You have been logged out.");
+  res.redirect("/users/login");
 });
 
 module.exports = router;
