@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/products");
+const User = require("../models/user");
+const nodemailer = require("nodemailer");
 
 // get product to cart
 router.get("/add/:product", (req, res) => {
@@ -106,6 +108,39 @@ router.get("/clear", (req, res) => {
 router.get("/buynow", (req, res) => {
   //res.sendStatus(200);
   delete req.session.cart;
+  let userEmail = res.locals.user.email;
+  const output = `
+  <h1>Hi, ${res.locals.user.name}</h1>
+  <h3>Thank you for choosing mycart</h3>
+  <h2>Your order is confirmed</h2>
+  
+  <h2>Order Details:</h2>
+  `;
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "manavtestemail@gmail.com", // generated ethereal user
+      pass: "manavpunjabi" // generated ethereal password
+    }
+  });
+  // send mail with defined transport object
+  let info = transporter.sendMail({
+    from: '"mycart" <manavtestemail@gmail.com>', // sender address
+    to: `manavpunjabi26@gmail.com,${userEmail}`, // list of receivers
+    subject: "Order Confirmation - mycart", // Subject line
+    text: "Hello world?", // plain text body
+    html: output // html body
+  });
+
+  //console.log("Message sent: %s", info.messageId);
+
+  //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+  //main().catch(console.error);
+
+  //
+
   res.render("orderplaced", {
     title: "mycart - Order Confirmed"
   });
