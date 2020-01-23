@@ -15,7 +15,7 @@ router.get("/add/:product", (req, res) => {
         title: slug,
         qty: 1,
         price: parseInt(p.price),
-        image: "/product_images" + p._id + "/" + p.image
+        image: "/product_images/" + p._id + "/" + p.image
       });
     } else {
       let cart = req.session.cart;
@@ -105,10 +105,10 @@ router.get("/clear", (req, res) => {
 
 router.get("/buynow", (req, res) => {
   //res.sendStatus(200);
+  delete req.session.cart;
   res.render("orderplaced", {
     title: "mycart - Order Confirmed"
   });
-  //delete req.session.cart;
 });
 
 module.exports = router;
