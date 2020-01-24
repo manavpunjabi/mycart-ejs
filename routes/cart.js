@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 // get product to cart
 router.get("/add/:product", (req, res) => {
   const slug = req.params.product;
+
   Product.findOne({ slug: slug }, (err, p) => {
     if (err) {
       console.log(err);
@@ -106,6 +107,7 @@ router.get("/clear", (req, res) => {
 // get place order
 
 router.get("/buynow", (req, res) => {
+  console.log(res.locals.cart.title);
   //res.sendStatus(200);
   delete req.session.cart;
   let userEmail = res.locals.user.email;
@@ -113,8 +115,6 @@ router.get("/buynow", (req, res) => {
   <h1>Hi, ${res.locals.user.name}</h1>
   <h3>Thank you for choosing mycart</h3>
   <h2>Your order is confirmed</h2>
-  
-  <h2>Order Details:</h2>
   `;
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({

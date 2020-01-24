@@ -140,6 +140,7 @@ app.use(passport.session());
 app.get("*", (req, res, next) => {
   res.locals.cart = req.session.cart;
   res.locals.user = req.user || null;
+  //res.locals.product = req.session.product || null;
   next();
 });
 
