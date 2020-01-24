@@ -3,6 +3,8 @@ const router = express.Router();
 const Product = require("../models/products");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
+const ejs = require("ejs");
+const fs = require("fs");
 
 // get product to cart
 router.get("/add/:product", (req, res) => {
@@ -107,16 +109,12 @@ router.get("/clear", (req, res) => {
 // get place order
 
 router.get("/buynow", (req, res) => {
-  console.log(res.locals.cart.title);
+  let cart = res.locals.cart;
+  let user = res.locals.user;
   //res.sendStatus(200);
   delete req.session.cart;
-  let userEmail = res.locals.user.email;
-  const output = `
-  <h1>Hi, ${res.locals.user.name}</h1>
-  <h3>Thank you for choosing mycart</h3>
-  <h2>Your order is confirmed</h2>
-  `;
-  // create reusable transporter object using the default SMTP transport
+  let userEmail = user.email;
+
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -124,14 +122,28 @@ router.get("/buynow", (req, res) => {
       pass: "manavpunjabi" // generated ethereal password
     }
   });
+
+  ejs.renderFile(
+    "/Users/manavpunjabi/Desktop/mycart/views/email.ejs",
+    { user: user, cart: cart },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        let info = transporter.sendMail({
+          from: '"mycart" <manavtestemail@gmail.com>', // sender address
+          to: `manavpunjabi26@gmail.com,${userEmail}`, // list of receivers
+          subject: "Order Confirmation - mycart", // Subject line
+          text: "Hello world?", // plain text body
+          html: data // html body
+        });
+      }
+    }
+  );
+
   // send mail with defined transport object
-  let info = transporter.sendMail({
-    from: '"mycart" <manavtestemail@gmail.com>', // sender address
-    to: `manavpunjabi26@gmail.com,${userEmail}`, // list of receivers
-    subject: "Order Confirmation - mycart", // Subject line
-    text: "Hello world?", // plain text body
-    html: output // html body
-  });
+
+  // create reusable transporter object using the default SMTP transport
 
   //console.log("Message sent: %s", info.messageId);
 
