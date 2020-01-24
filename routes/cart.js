@@ -5,6 +5,7 @@ const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const fs = require("fs");
+const path = require("path");
 
 // get product to cart
 router.get("/add/:product", (req, res) => {
@@ -124,7 +125,7 @@ router.get("/buynow", (req, res) => {
   });
 
   ejs.renderFile(
-    "/Users/manavpunjabi/Desktop/mycart/views/email.ejs",
+    __dirname + "/../views/email.ejs",
     { user: user, cart: cart },
     (err, data) => {
       if (err) {

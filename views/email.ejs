@@ -1,29 +1,39 @@
-<link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-/>
-<h1>Hi, <%=user.name %></h1>
-<h3>Thank you for choosing mycart.</h3>
-<h2>Your order is confirmed.</h2>
-<h4>Shipping Address:</h4>
-<h3>Order Details:</h3>
-<table class="table table-striped alignmiddle">
-  <tr>
-    <th>Title</th>
-    <th>Price</th>
-    <th>Quantity</th>
-    <th>Subtotal</th>
-  </tr>
-  <% let total=0; %> <% cart.forEach(product => { %> <%let
-  sub=parseInt(product.qty*product.price) %> <% total=sub+total;%>
-  <tr>
-    <td><%=product.title %></td>
-    <td>₹<%=product.price %></td>
-    <td><%=product.qty %></td>
-    <td>₹<%=sub%></td>
-  </tr>
-  <% }); %>
-  <tr>
-    <td colspan="5" align="right"><b>Total: </b>₹<%=parseInt(total)%></td>
-  </tr>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <h1>Hi, <%=user.name %></h1>
+    <h3>Thank you for choosing mycart.</h3>
+    <h2>Your order is confirmed.</h2>
+    <h4>Shipping Address:</h4>
+    <h3>Order Details:</h3>
+    <table class="table table-striped alignmiddle">
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
+      <% let total=0; %> <% cart.forEach(product => { %> <%let
+      sub=parseInt(product.qty*product.price) %> <% total=sub+total;%>
+      <tr>
+        <td><%=product.title %></td>
+        <td>₹<%=product.price %></td>
+        <td><%=product.qty %></td>
+        <td>₹<%=sub%></td>
+      </tr>
+      <% }); %>
+      <tr>
+        <td colspan="5" align="right"><b>Total: </b>₹<%=parseInt(total)%></td>
+      </tr>
+    </table>
+
+    <hr />
+    <p class="text-center">Copyright, mycart, 2020</p>
+  </body>
+</html>
