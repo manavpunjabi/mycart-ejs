@@ -154,6 +154,7 @@ const products = require("./routes/products");
 const cart = require("./routes/cart");
 const user = require("./routes/users");
 const order = require("./routes/orders");
+const adminOrders = require("./routes/admin_orders");
 
 app.use("/admin/pages", adminPages);
 app.use("/admin/categories", adminCategories);
@@ -163,6 +164,7 @@ app.use("/products", products);
 app.use("/cart", cart);
 app.use("/users", user);
 app.use("/orders", order);
+app.use("/admin/orders", adminOrders);
 
 // start sv
 const port = 3000;

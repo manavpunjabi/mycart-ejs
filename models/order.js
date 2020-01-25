@@ -28,6 +28,10 @@ const OrderSchema = mongoose.Schema({
   },
   image: {
     type: String
+  },
+  qty: {
+    type: Number,
+    required: true
   }
 });
 

@@ -127,7 +127,8 @@ router.get("/buynow", (req, res) => {
           username: user.username,
           address: user.address,
           price: p.price,
-          image: p.image
+          image: p.image,
+          qty: p.qty
         });
         order.save(err => {
           if (err) {
