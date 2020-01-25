@@ -18,12 +18,14 @@ router.post("/register", (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
   let password2 = req.body.password2;
+  let address = req.body.address;
 
   req.checkBody("name", "Name is mandatory").notEmpty();
   req.checkBody("email", "Email is mandatory").isEmail();
   req.checkBody("username", "Username is mandatory").notEmpty();
   req.checkBody("password", "Password is mandatory").notEmpty();
   req.checkBody("password2", "Passwords do not match").equals(password);
+  req.checkBody("address", "Address is mandatory").notEmpty();
 
   let errors = req.validationErrors();
   if (errors) {
@@ -47,7 +49,8 @@ router.post("/register", (req, res) => {
           username: username,
           password: password,
           // put 1 to make admins
-          admin: 0
+          admin: 0,
+          address: address
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(user.password, salt, (err, hash) => {

@@ -20,6 +20,10 @@ const UserSchema = mongoose.Schema({
   },
   admin: {
     type: Number
+  },
+  address: {
+    type: String,
+    required: true
   }
 });
 
