@@ -9,18 +9,19 @@ const isAdmin = auth.isAdmin;
 // get product and category model
 const Product = require("../models/products");
 const Category = require("../models/category");
+const Order = require("../models/order");
 
 // default route is /admin/products
 
 // get products index
-router.get("/", isAdmin, (req, res) => {
+router.get("/all-orders", isAdmin, (req, res) => {
   let count;
-  Product.count((err, c) => {
+  Order.count((err, c) => {
     count = c;
   });
-  Product.find((err, products) => {
-    res.render("admin/products", {
-      products: products,
+  Order.find((err, orders) => {
+    res.render("admin/orders", {
+      orders: orders,
       count: count
     });
   });
