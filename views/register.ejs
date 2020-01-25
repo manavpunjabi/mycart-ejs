@@ -2,7 +2,7 @@
 <h1 class="text-center"><%=title %></h1>
 <form action="/users/register" method="post">
   <div class="form-group">
-    <label for="">Name</label>
+    <label for=""><i class="fas fa-smile"></i> Name</label>
     <input
       type="text"
       name="name"
@@ -12,12 +12,12 @@
   </div>
 
   <div class="form-group">
-    <label for="">Email</label>
+    <label for=""><i class="fas fa-at"></i> Email</label>
     <input type="text" name="email" class="form-control" placeholder="Email" />
   </div>
 
   <div class="form-group">
-    <label for="">Username</label>
+    <label for=""><i class="far fa-user"></i> Username</label>
     <input
       type="text"
       name="username"
@@ -27,7 +27,7 @@
   </div>
 
   <div class="form-group">
-    <label for="">Password</label>
+    <label for=""><i class="fas fa-lock"></i> Password</label>
     <input
       type="password"
       name="password"
@@ -37,7 +37,7 @@
   </div>
 
   <div class="form-group">
-    <label for="">Confirm Password</label>
+    <label for=""><i class="fas fa-lock"></i> Confirm Password</label>
     <input
       type="password"
       name="password2"
@@ -46,7 +46,7 @@
     />
   </div>
   <div class="form-group">
-    <label for="">Address</label>
+    <label for=""><i class="fas fa-map-marker"></i> Address</label>
     <textarea
       name="address"
       placeholder="Address"
@@ -56,7 +56,9 @@
     ></textarea>
   </div>
   <div class="text-center">
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-user-plus"></i> Sign Up
+    </button>
   </div>
 </form>
 <%-include ('_layouts/footer') %>
