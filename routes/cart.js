@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const fs = require("fs");
 const path = require("path");
+const Order = require("../models/order");
 
 // get product to cart
 router.get("/add/:product", (req, res) => {
@@ -114,6 +115,28 @@ router.get("/buynow", (req, res) => {
   let user = res.locals.user;
   //res.sendStatus(200);
   delete req.session.cart;
+
+  // order
+  Product.find({ title: cart.title }, (err, p) => {
+    if (p) {
+      cart.forEach(p => {
+        let order = new Order({
+          title: p.title,
+          name: user.name,
+          email: user.email,
+          username: user.username,
+          address: user.address,
+          price: p.price,
+          image: p.image
+        });
+        order.save(err => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
+    }
+  });
   let userEmail = user.email;
 
   let transporter = nodemailer.createTransport({
@@ -141,19 +164,6 @@ router.get("/buynow", (req, res) => {
       }
     }
   );
-
-  // send mail with defined transport object
-
-  // create reusable transporter object using the default SMTP transport
-
-  //console.log("Message sent: %s", info.messageId);
-
-  //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
-  //main().catch(console.error);
-
-  //
-
   res.render("orderplaced", {
     title: "mycart - Order Confirmed"
   });

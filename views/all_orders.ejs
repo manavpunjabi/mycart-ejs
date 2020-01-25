@@ -1,0 +1,16 @@
+<%-include ('_layouts/header') %>
+<h1 class="page-header">Your Orders</h1>
+<div class="row products">
+    <% orders.forEach(o => { %>
+    <div class="col-xs-12 col-md-4 p">
+            <img src="<%=o.image%> " alt="" class="pimage" />
+            <h3><%=o.title%></h3>
+            <h4>₹<%=o.price%></h4>
+        </a>
+    </div>
+    <% }) %>
+    
+</div>
+
+<%-include ('_layouts/footer') %>
+
