@@ -102,15 +102,15 @@ router.post("/add-product", (req, res) => {
           }
           // creating folders
           mkdirp("public/product_images/" + product._id, err => {
-            return console.log("1" + err);
+            //return console.log("1" + err);
           });
           mkdirp("public/product_images/" + product._id + "/gallery", err => {
-            return console.log("2" + err);
+            // return console.log("2" + err);
           });
           mkdirp(
             "public/product_images/" + product._id + "/gallery/thumbs",
             err => {
-              return console.log("3" + err);
+              // return console.log("3" + err);
             }
           );
 

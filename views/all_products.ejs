@@ -3,18 +3,23 @@
 <div class="row products">
   <% products.forEach(p => { %>
   <div class="col-xs-12 col-md-4 p">
-    <a href="/products/<%=p.category%>/<%=p.slug%>" class="pa">
+    <div class="thumbnail">
       <img
         src="/product_images/<%=p.id%>/<%=p.image%> "
         alt=""
-        class="pimage"
+        class="pimage img-responsive"
       />
-      <h3><%=p.title%></h3>
-      <h4>₹<%=p.price%></h4>
-      <a href="/products/<%=p.category%>/<%=p.slug%>" class="vd"
-        >View Details</a
-      >
-    </a>
+      <div class="caption clearfix">
+        <h3><%=p.title%></h3>
+        <h4 class="price pull-left">₹<%=p.price%></h4>
+        <a
+          class="btn btn-primary pull-right"
+          href="/products/<%=p.category%>/<%=p.slug%>"
+        >
+          Buy Now
+        </a>
+      </div>
+    </div>
   </div>
   <% }) %>
 </div>
