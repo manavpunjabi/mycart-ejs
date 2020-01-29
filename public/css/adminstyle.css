@@ -1,3 +1,9 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #222;
+  color: #e6e6e6;
+  border-color: #e6e6e6;
+}
 .sorting tr:not(.home) {
   cursor: pointer;
 }
