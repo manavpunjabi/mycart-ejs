@@ -4,6 +4,20 @@ body {
   color: #e6e6e6;
   border-color: #e6e6e6;
 }
+.dark {
+  background-color: #222;
+  color: #e6e6e6;
+  border-color: #e6e6e6;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: #e6e6e6;
+}
 .sorting tr:not(.home) {
   cursor: pointer;
 }
