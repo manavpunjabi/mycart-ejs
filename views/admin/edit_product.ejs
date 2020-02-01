@@ -13,7 +13,7 @@
     <input
       type="text"
       placeholder="title"
-      class="form-control"
+      class="form-control dark"
       name="title"
       value="<%= title %>"
     />
@@ -26,7 +26,7 @@
       name="desc"
       cols="30"
       rows="10"
-      class="form-control"
+      class="form-control dark"
     >
 <%= desc %></textarea
     >
@@ -34,11 +34,12 @@
 
   <div class="form-group">
     <label for="">Category</label>
-    <select name="category" class="form-control">
+    <select name="category" class="form-control dark">
       <% categories.forEach((cat)=>{ %>
       <option value="<%=cat.slug%>"
         <%if (cat.slug==category) {%> 
-            selected="selected"> <%}%>
+            selected="selected">
+             <%}%>
         <%=cat.title%></option
       >
       <% });%>
@@ -50,7 +51,7 @@
     <input
       type="text"
       placeholder="price"
-      class="form-control"
+      class="form-control dark"
       name="price"
       value="<%= price %>"
     />
@@ -69,12 +70,12 @@
 
   <div class="form-group">
     <label for="">Upload Image</label>
-    <input type="file" class="form-control" name="image" id="img" />
+    <input type="file" class="form-control dark" name="image" id="img" />
     <img src="#" id="imgPreview" alt="" />
   </div>
 
   <input type="hidden" name="pimage" value="<%=image%>" />
-  <button class="btn btn-default">Submit</button>
+  <button class="btn btn-primary">Submit</button>
 </form>
 <hr>
 <h3 class="page-header">Gallery</h3>
